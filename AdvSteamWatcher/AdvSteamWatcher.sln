@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvSteamWatcher", "AdvSteam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamBot", "SteamBot\SteamBot.csproj", "{6B4E7EEE-79A1-4CEF-8606-2137A6987245}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvWatcher", "AdvWatcher\AdvWatcher.csproj", "{F63CA803-14AF-45CD-ACAA-1BB919ABAC0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6B4E7EEE-79A1-4CEF-8606-2137A6987245}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B4E7EEE-79A1-4CEF-8606-2137A6987245}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B4E7EEE-79A1-4CEF-8606-2137A6987245}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F63CA803-14AF-45CD-ACAA-1BB919ABAC0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F63CA803-14AF-45CD-ACAA-1BB919ABAC0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F63CA803-14AF-45CD-ACAA-1BB919ABAC0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F63CA803-14AF-45CD-ACAA-1BB919ABAC0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
