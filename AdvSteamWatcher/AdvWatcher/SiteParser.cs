@@ -13,5 +13,11 @@ namespace AdvWatcher
         {
             _site = site;
         }
+
+        public bool IsAdvertismentAvaiable()
+        {
+            string siteCode = _webClient.DownloadString(_site);
+            return !siteCode.Contains("Limit reached, week boost will be available on ");
+        }
     }
 }
