@@ -5,7 +5,7 @@ namespace AdvWatcher
     public class SiteWatcher
     {
         public string Site { get; set; }
-        public uint Interval { get; set; }
+        public double Interval { get; set; }
         public bool IsWorking
         {
             get
@@ -15,7 +15,7 @@ namespace AdvWatcher
         }
         private System.Timers.Timer _timer;
         private SiteParser _siteParser;
-        public SiteWatcher(string site, uint interval)
+        public SiteWatcher(string site, double interval)
         {
             Site = site;
             Interval = interval;
