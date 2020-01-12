@@ -35,7 +35,11 @@ namespace AdvWatcher
 
         private void OnTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (_siteParser.IsAdvertismentAvaiable())
+            {
+                // report event
+                _timer.Stop();
+            }
         }
 
         public void StopWatcher()
