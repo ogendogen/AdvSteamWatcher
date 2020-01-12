@@ -5,8 +5,8 @@ namespace AdvWatcher
     public class SiteWatcher
     {
         public event EventHandler OnAdvAvaiable;
-        public string Site { get; set; }
-        public double Interval { get; set; }
+        public string Site { get; }
+        public double Interval { get; }
         public bool IsWorking
         {
             get
