@@ -14,19 +14,23 @@ namespace AdvWatcher
             }
         }
         private System.Timers.Timer _timer;
+        private SiteParser _siteParser;
         public SiteWatcher(string site, uint interval)
         {
             Site = site;
             Interval = interval;
-        }
 
-        public void StartWatcher()
-        {
-            SiteParser siteParser = new SiteParser(Site);
             _timer = new System.Timers.Timer();
             _timer.Elapsed += OnTimerElapsed;
             _timer.Interval = Interval;
             _timer.Enabled = true;
+
+            _siteParser = new SiteParser(Site);
+        }
+
+        public void StartWatcher()
+        {
+            _timer.Start();
         }
 
         private void OnTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -36,7 +40,7 @@ namespace AdvWatcher
 
         public void StopWatcher()
         {
-
+            _timer.Stop();
         }
     }
 }
