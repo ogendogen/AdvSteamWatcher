@@ -6,7 +6,13 @@ namespace AdvWatcher
     {
         public string Site { get; set; }
         public uint Interval { get; set; }
-        public bool IsWorking { get; set; } = false;
+        public bool IsWorking
+        {
+            get
+            {
+                return _timer.Enabled;
+            }
+        }
         private System.Timers.Timer _timer;
         public SiteWatcher(string site, uint interval)
         {
@@ -16,7 +22,6 @@ namespace AdvWatcher
 
         public void StartWatcher()
         {
-            IsWorking = true;
             SiteParser siteParser = new SiteParser(Site);
             _timer = new System.Timers.Timer();
             _timer.Elapsed += OnTimerElapsed;
@@ -31,7 +36,7 @@ namespace AdvWatcher
 
         public void StopWatcher()
         {
-            IsWorking = false;
+
         }
     }
 }
