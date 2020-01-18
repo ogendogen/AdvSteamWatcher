@@ -11,10 +11,8 @@ namespace AdvWatcher
         private string _site;
         private string _wantedText;
         private Process _pythonProcess;
-        private StringBuilder _outputBuilder;
         public SiteParser(string site, string wantedText)
         {
-            _outputBuilder = new StringBuilder();
             _site = site;
             _wantedText = wantedText;
 
@@ -22,9 +20,9 @@ namespace AdvWatcher
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = "CloudflareBanger.py",
-                    Arguments = _site,
-                    UseShellExecute = true,
+                    FileName = "py",
+                    Arguments = $"CloudflareBanger.py { _site }",
+                    UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true
                 }
@@ -33,14 +31,10 @@ namespace AdvWatcher
 
         public bool IsAdvertismentAvaiable()
         {
-            _outputBuilder.Clear();
             _pythonProcess.Start();
-            while (!_pythonProcess.StandardOutput.EndOfStream)
-            {
-                _outputBuilder.Append(_pythonProcess.StandardOutput.ReadLine());
-            }
 
-            return !_outputBuilder.ToString().Contains(_wantedText);
+            string pythonOutput = _pythonProcess.StandardOutput.ReadToEnd();
+            return !pythonOutput.Contains(_wantedText);
         }
     }
 }
