@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
+using System.Diagnostics;
 
 namespace AdvWatcher
 {
@@ -9,17 +10,37 @@ namespace AdvWatcher
     {
         private string _site;
         private string _wantedText;
-        private WebClient _webClient;
+        private Process _pythonProcess;
+        private StringBuilder _outputBuilder;
         public SiteParser(string site, string wantedText)
         {
+            _outputBuilder = new StringBuilder();
             _site = site;
             _wantedText = wantedText;
+
+            _pythonProcess = new Process 
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "CloudflareBanger.py",
+                    Arguments = _site,
+                    UseShellExecute = true,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                }
+            };
         }
 
         public bool IsAdvertismentAvaiable()
         {
-            string siteCode = _webClient.DownloadString(_site);
-            return !siteCode.Contains(_wantedText);
+            _outputBuilder.Clear();
+            _pythonProcess.Start();
+            while (!_pythonProcess.StandardOutput.EndOfStream)
+            {
+                _outputBuilder.Append(_pythonProcess.StandardOutput.ReadLine());
+            }
+
+            return !_outputBuilder.ToString().Contains(_wantedText);
         }
     }
 }
