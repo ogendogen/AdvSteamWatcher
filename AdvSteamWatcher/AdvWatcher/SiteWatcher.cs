@@ -7,6 +7,7 @@ namespace AdvWatcher
         public event EventHandler OnAdvAvaiable;
         public string Site { get; }
         public double Interval { get; }
+        public string WantedText { get; }
         public bool IsWorking
         {
             get
@@ -16,17 +17,18 @@ namespace AdvWatcher
         }
         private System.Timers.Timer _timer;
         private SiteParser _siteParser;
-        public SiteWatcher(string site, double interval)
+        public SiteWatcher(string site, double interval, string wantedText)
         {
             Site = site;
             Interval = interval;
+            WantedText = wantedText;
 
             _timer = new System.Timers.Timer();
             _timer.Elapsed += OnTimerElapsed;
             _timer.Interval = Interval;
             _timer.Enabled = true;
 
-            _siteParser = new SiteParser(Site);
+            _siteParser = new SiteParser(Site, wantedText);
         }
 
         public void StartWatcher()
