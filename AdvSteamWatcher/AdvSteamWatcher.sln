@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamBot", "SteamBot\SteamB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvWatcher", "AdvWatcher\AdvWatcher.csproj", "{F63CA803-14AF-45CD-ACAA-1BB919ABAC0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{D0F1E1B8-914D-4401-A8F2-69C87C4BACC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{D0F1E1B8-914D-4401-A8F2-69C87C4BACC6}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CloudflareBanger", "CloudflareBanger\CloudflareBanger.pyproj", "{7BF88F63-C589-497E-B239-1765592E4976}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,8 @@ Global
 		{D0F1E1B8-914D-4401-A8F2-69C87C4BACC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0F1E1B8-914D-4401-A8F2-69C87C4BACC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0F1E1B8-914D-4401-A8F2-69C87C4BACC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BF88F63-C589-497E-B239-1765592E4976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BF88F63-C589-497E-B239-1765592E4976}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
