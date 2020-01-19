@@ -14,9 +14,21 @@ namespace Tests
             isEventCalled = false;
         }
 
+        [TearDown]
+        public void DisableEventFlag()
+        {
+            isEventCalled = false;
+        }
+
         [Test]
         [TestCase("https://www.gametracker.rs/sms_boost/", 15.00, "PayPal boost")]
         public void GameTrackerPayPalBoostTest(string site, double interval, string wantedText)
+        {
+            CreateSiteWatcher(site, interval, wantedText);
+            Assert.IsTrue(isEventCalled, "Watcher stopped and string not found");
+        }
+
+        private void CreateSiteWatcher(string site, double interval, string wantedText)
         {
             SiteWatcher siteWatcher = new SiteWatcher(site, interval, wantedText);
             siteWatcher.OnAdvAvaiable += SiteWatcher_OnAdvAvaiable;
@@ -26,7 +38,6 @@ namespace Tests
             Thread.Sleep(steps);
 
             siteWatcher.StopWatcher();
-            Assert.IsTrue(isEventCalled, "Watcher stopped and string not found");
         }
 
         private void SiteWatcher_OnAdvAvaiable(object sender, System.EventArgs e)
