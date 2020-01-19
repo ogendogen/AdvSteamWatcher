@@ -39,14 +39,14 @@ namespace AdvWatcher
                 string pythonOutput = _pythonProcess.StandardOutput.ReadToEnd();
                 if (pythonOutput.Contains("[ERROR]"))
                 {
-                    File.AppendAllText($"errors{ DateTime.Now.ToString("yyyyMMdd") }.log", pythonOutput);
+                    File.AppendAllText($"errors{ DateTime.Now.ToString("yyyyMMdd") }.log", DateTime.Now.ToString() + " " + pythonOutput);
                     return false;
                 }
                 return !pythonOutput.Contains(_wantedText);
             }
             catch (Exception e)
             {
-                File.AppendAllText($"errors{ DateTime.Now.ToString("yyyyMMdd") }.log", e.Message);
+                File.AppendAllText($"errors{ DateTime.Now.ToString("yyyyMMdd") }.log", DateTime.Now.ToString() + " " + e.Message);
                 return false;
             }
         }
