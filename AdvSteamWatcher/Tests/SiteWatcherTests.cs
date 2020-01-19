@@ -2,16 +2,19 @@ using NUnit.Framework;
 using AdvWatcher;
 using System.Threading;
 using System;
+using System.IO;
 
 namespace Tests
 {
     public class SiteWatcherTests
     {
-        private bool isEventCalled;
+        private bool _isEventCalled;
+        private string _logName;
         [SetUp]
         public void Setup()
         {
-            isEventCalled = false;
+            _isEventCalled = false;
+            _logName = $"errors{ DateTime.Now.ToString("yyyyMMdd") }.log";
         }
 
         [Test]
@@ -20,7 +23,28 @@ namespace Tests
         public void GeneralCloudflareBangerTest(string site, double interval, string wantedText)
         {
             CreateSiteWatcher(site, interval, wantedText);
-            Assert.IsTrue(isEventCalled, "Watcher stopped and string not found");
+            Assert.IsTrue(_isEventCalled, "Watcher stopped and string not found");
+        }
+
+        [Test]
+        [TestCase("ddddd")]
+        [TestCase("https://")]
+        [TestCase("http://google")]
+        public void IncorrectURLs(string url)
+        {
+            ClearLogFile();
+            CreateSiteWatcher(url, 5.00, " ");
+            Assert.IsTrue(IsLogContainsErrors());
+        }
+
+        private void ClearLogFile()
+        {
+            File.WriteAllText(_logName, "");
+        }
+
+        private bool IsLogContainsErrors()
+        {
+            return File.ReadAllText(_logName).Contains("[ERROR]");
         }
 
         private void CreateSiteWatcher(string site, double interval, string wantedText)
@@ -38,7 +62,7 @@ namespace Tests
                 counter += step;
                 Thread.Sleep(step);
 
-                if (isEventCalled || counter > totalSteps)
+                if (_isEventCalled || counter > totalSteps)
                 {
                     break;
                 }
@@ -52,7 +76,7 @@ namespace Tests
 
         private void SiteWatcher_OnAdvAvaiable(object sender, System.EventArgs e)
         {
-            isEventCalled = true;
+            _isEventCalled = true;
         }
     }
 }
