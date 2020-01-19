@@ -17,10 +17,10 @@ namespace AdvWatcher
         }
         private System.Timers.Timer _timer;
         private SiteParser _siteParser;
-        public SiteWatcher(string site, double interval, string wantedText)
+        public SiteWatcher(string site, double intervalInSeconds, string wantedText)
         {
             Site = site;
-            Interval = interval;
+            Interval = intervalInSeconds * 1000;
             WantedText = wantedText;
 
             _timer = new System.Timers.Timer();
