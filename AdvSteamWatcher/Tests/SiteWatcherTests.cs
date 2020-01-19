@@ -16,6 +16,7 @@ namespace Tests
 
         [Test]
         [TestCase("https://www.gametracker.rs/sms_boost/", 15.00, "PayPal boost")]
+        [TestCase("https://www.google.com", 10.00, "apis.google.com")]
         public void GeneralCloudflareBangerTest(string site, double interval, string wantedText)
         {
             CreateSiteWatcher(site, interval, wantedText);
