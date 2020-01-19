@@ -14,15 +14,9 @@ namespace Tests
             isEventCalled = false;
         }
 
-        [TearDown]
-        public void DisableEventFlag()
-        {
-            isEventCalled = false;
-        }
-
         [Test]
         [TestCase("https://www.gametracker.rs/sms_boost/", 15.00, "PayPal boost")]
-        public void GameTrackerPayPalBoostTest(string site, double interval, string wantedText)
+        public void GeneralCloudflareBangerTest(string site, double interval, string wantedText)
         {
             CreateSiteWatcher(site, interval, wantedText);
             Assert.IsTrue(isEventCalled, "Watcher stopped and string not found");
