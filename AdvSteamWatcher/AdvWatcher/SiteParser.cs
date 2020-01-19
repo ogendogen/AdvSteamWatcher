@@ -42,7 +42,7 @@ namespace AdvWatcher
                     File.AppendAllText($"errors{ DateTime.Now.ToString("yyyyMMdd") }.log", DateTime.Now.ToString() + " " + pythonOutput);
                     return false;
                 }
-                return !pythonOutput.Contains(_wantedText);
+                return pythonOutput.Contains(_wantedText);
             }
             catch (Exception e)
             {
