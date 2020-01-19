@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net;
 using System.Diagnostics;
+using System.IO;
 
 namespace AdvWatcher
 {
@@ -33,8 +34,21 @@ namespace AdvWatcher
         {
             _pythonProcess.Start();
 
-            string pythonOutput = _pythonProcess.StandardOutput.ReadToEnd();
-            return !pythonOutput.Contains(_wantedText);
+            try
+            {
+                string pythonOutput = _pythonProcess.StandardOutput.ReadToEnd();
+                if (pythonOutput.Contains("[ERROR]"))
+                {
+                    File.AppendAllText($"errors{ DateTime.Now.ToString("yyyyMMdd") }.log", pythonOutput);
+                    return false;
+                }
+                return !pythonOutput.Contains(_wantedText);
+            }
+            catch (Exception e)
+            {
+                File.AppendAllText($"errors{ DateTime.Now.ToString("yyyyMMdd") }.log", e.Message);
+                return false;
+            }
         }
     }
 }
