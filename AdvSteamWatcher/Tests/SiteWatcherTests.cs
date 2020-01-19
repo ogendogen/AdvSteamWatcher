@@ -29,10 +29,25 @@ namespace Tests
             siteWatcher.OnAdvAvaiable += SiteWatcher_OnAdvAvaiable;
             siteWatcher.StartWatcher();
 
-            int steps = (Convert.ToInt32(interval) * 1000) * 4;
-            Thread.Sleep(steps);
+            int attempts = 4;
+            int totalSteps = Convert.ToInt32(interval) * 1000 * attempts;
+            int counter = 0;
+            int step = 100;
+            while (true)
+            {
+                counter += step;
+                Thread.Sleep(step);
 
-            siteWatcher.StopWatcher();
+                if (isEventCalled || counter > totalSteps)
+                {
+                    break;
+                }
+            }
+
+            if (siteWatcher.IsWorking)
+            {
+                siteWatcher.StopWatcher();
+            }
         }
 
         private void SiteWatcher_OnAdvAvaiable(object sender, System.EventArgs e)
