@@ -59,6 +59,11 @@ namespace Steam
             }
         }
 
+        public void SendMessage(Friend friend, string message)
+        {
+            SteamFriends.SendChatMessage(friend.SteamID, EChatEntryType.ChatMsg, message);
+        }
+
         private void OnConnected(SteamClient.ConnectedCallback callback)
         {
             Console.WriteLine($"Connected to Steam! Logging in {_login}...");
