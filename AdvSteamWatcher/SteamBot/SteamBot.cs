@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using SteamKit2;
 
@@ -15,7 +16,7 @@ namespace Steam
         private string _login;
         private string _password;
 
-        public SteamBot()
+        public SteamBot(string login, string password)
         {
             var configuration = SteamConfiguration.Create(b => b.WithProtocolTypes(ProtocolTypes.Tcp));
             SteamClient = new SteamClient(configuration);
@@ -36,25 +37,26 @@ namespace Steam
 
             Manager.Subscribe<SteamFriends.FriendAddedCallback>(OnFriendAdded);
             Manager.Subscribe<SteamFriends.FriendMsgCallback>(OnFriendMsg);
-        }
 
-        public void Login(string login, string password)
-        {
             _login = login;
             _password = password;
 
+            IsRunning = true;
+            Console.WriteLine("Connecting to Steam");
+
             SteamClient.Connect();
+
+            Thread thread = new Thread(KeepBotAlive);
+            thread.Start();
         }
 
-        public async void HoldCallbacks()
+        // This method should be ran in separate thread
+        public void KeepBotAlive()
         {
-            await Task.Run(() =>
+            while (IsRunning)
             {
-                while (IsRunning)
-                {
-                    Manager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
-                }
-            });
+                Manager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
+            }
         }
 
         private void OnConnected(SteamClient.ConnectedCallback callback)
