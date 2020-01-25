@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using SteamKit2;
 
 namespace Steam
@@ -43,6 +44,17 @@ namespace Steam
             _password = password;
 
             SteamClient.Connect();
+        }
+
+        public async void HoldCallbacks()
+        {
+            await Task.Run(() =>
+            {
+                while (IsRunning)
+                {
+                    Manager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
+                }
+            });
         }
 
         private void OnConnected(SteamClient.ConnectedCallback callback)
