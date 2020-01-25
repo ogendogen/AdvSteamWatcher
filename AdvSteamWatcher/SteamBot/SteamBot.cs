@@ -11,6 +11,9 @@ namespace Steam
         public SteamFriends SteamFriends { get; set; }
         public bool IsRunning { get; set; } = false;
 
+        private string _login;
+        private string _password;
+
         public SteamBot()
         {
             var configuration = SteamConfiguration.Create(b => b.WithProtocolTypes(ProtocolTypes.Tcp));
@@ -31,9 +34,23 @@ namespace Steam
             Manager.Subscribe<SteamFriends.PersonaStateCallback>(OnPersonaState);
         }
 
+        public void Login(string login, string password)
+        {
+            _login = login;
+            _password = password;
+
+            SteamClient.Connect();
+        }
+
         private void OnConnected(SteamClient.ConnectedCallback callback)
         {
-            Console.WriteLine("Connected to Steam!");
+            Console.WriteLine($"Connected to Steam! Logging in {_login}...");
+
+            SteamUser.LogOn(new SteamUser.LogOnDetails
+            {
+                Username = _login,
+                Password = _password
+            });
         }
 
         private void OnDisconnected(SteamClient.DisconnectedCallback callback)
