@@ -1,7 +1,7 @@
 ﻿using System;
 using SteamKit2;
 
-namespace SteamBot
+namespace Steam
 {
     public class SteamBot
     {
