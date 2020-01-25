@@ -32,6 +32,9 @@ namespace Steam
             Manager.Subscribe<SteamUser.AccountInfoCallback>(OnAccountInfo);
             Manager.Subscribe<SteamFriends.FriendsListCallback>(OnFriendsList);
             Manager.Subscribe<SteamFriends.PersonaStateCallback>(OnPersonaState);
+
+            Manager.Subscribe<SteamFriends.FriendAddedCallback>(OnFriendAdded);
+            Manager.Subscribe<SteamFriends.FriendMsgCallback>(OnFriendMsg);
         }
 
         public void Login(string login, string password)
@@ -110,6 +113,22 @@ namespace Steam
         private void OnPersonaState(SteamFriends.PersonaStateCallback callback)
         {
             Console.WriteLine($"State change: {callback.Name}");
+        }
+
+        private void OnFriendAdded(SteamFriends.FriendAddedCallback callback)
+        {
+            Console.WriteLine($"{callback.PersonaName} is now a friend");
+            var sender = callback.SteamID;
+            SteamFriends.SendChatMessage(sender, EChatEntryType.ChatMsg, "Witaj, jesteś teraz moim znajomym :)");
+        }
+
+        private void OnFriendMsg(SteamFriends.FriendMsgCallback callback)
+        {
+            if (callback.EntryType == EChatEntryType.ChatMsg)
+            {
+                var sender = callback.Sender;
+                SteamFriends.SendChatMessage(sender, EChatEntryType.ChatMsg, "Hello");
+            }
         }
     }
 }
