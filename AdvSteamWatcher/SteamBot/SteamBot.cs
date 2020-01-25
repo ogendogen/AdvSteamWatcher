@@ -1,13 +1,10 @@
 ﻿using System;
 using SteamKit2;
 
-namespace Steam
+namespace SteamBot
 {
     public class SteamBot
     {
-        public SteamBot()
-        {
 
-        }
     }
 }
