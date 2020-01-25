@@ -46,22 +46,18 @@ namespace Steam
 
             SteamClient.Connect();
 
-            Thread thread = new Thread(KeepBotAlive);
-            thread.Start();
+            KeepBotAlive();
         }
 
-        // This method should be ran in separate thread
-        public void KeepBotAlive()
+        private void KeepBotAlive()
         {
-            while (IsRunning)
+            new Thread(() =>
             {
-                Manager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
-            }
-        }
-
-        public void SendMessage(Friend friend, string message)
-        {
-            SteamFriends.SendChatMessage(friend.SteamID, EChatEntryType.ChatMsg, message);
+                while (IsRunning)
+                {
+                    Manager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
+                }
+            }).Start();
         }
 
         private void OnConnected(SteamClient.ConnectedCallback callback)
