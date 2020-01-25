@@ -3,5 +3,7 @@
   "Password": "",
   "AdvMessageReceivers": [
     "STEAM_0:1:2345678"
-  ]
+  ],
+  "WatchedSite": "",
+  "WantedText": ""
 }

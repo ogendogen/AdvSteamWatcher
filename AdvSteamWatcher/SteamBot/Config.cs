@@ -9,6 +9,8 @@ namespace Steam
         public string Login { get; set; }
         public string Password { get; set; }
         public List<string> AdvMessageReceivers { get; set; }
+        public string WatchedSite { get; set; }
+        public string WantedText { get; set; }
 
         public Config()
         {
