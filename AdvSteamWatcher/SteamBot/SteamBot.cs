@@ -49,6 +49,11 @@ namespace Steam
             KeepBotAlive();
         }
 
+        public void SendMessage(Friend friend, string message)
+        {
+            SteamFriends.SendChatMessage(friend.SteamID, EChatEntryType.ChatMsg, message);
+        }
+
         private void KeepBotAlive()
         {
             new Thread(() =>
