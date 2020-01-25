@@ -11,6 +11,7 @@ namespace Steam
         public List<string> AdvMessageReceivers { get; set; }
         public string WatchedSite { get; set; }
         public string WantedText { get; set; }
+        public double Interval { get; set; }
 
         public Config()
         {
