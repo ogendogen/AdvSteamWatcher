@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using SteamKit2;
@@ -12,6 +13,7 @@ namespace Steam
         public SteamUser SteamUser { get; set; }
         public SteamFriends SteamFriends { get; set; }
         public bool IsRunning { get; set; } = false;
+        public Dictionary<string, string> BasicCommands { get; set; }
 
         private string _login;
         private string _password;
@@ -63,6 +65,11 @@ namespace Steam
                     Manager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
                 }
             }).Start();
+        }
+
+        public void AddBasicCommands(Dictionary<string, string> basicCommands)
+        {
+            throw new NotImplementedException();
         }
 
         private void OnConnected(SteamClient.ConnectedCallback callback)
@@ -147,7 +154,18 @@ namespace Steam
             if (callback.EntryType == EChatEntryType.ChatMsg)
             {
                 var sender = callback.Sender;
-                SteamFriends.SendChatMessage(sender, EChatEntryType.ChatMsg, "Hello");
+                
+                string responseMessage = String.Empty;
+                if (BasicCommands.ContainsKey(callback.Message))
+                {
+                    responseMessage = BasicCommands[callback.Message];
+                }
+                else
+                {
+                    responseMessage = "Hello";
+                }
+                
+                SteamFriends.SendChatMessage(sender, EChatEntryType.ChatMsg, responseMessage);
             }
         }
     }

@@ -68,6 +68,7 @@ namespace AdvSteamWatcher
         private void StartSteamBot()
         {
             SteamBot = new SteamBot(Config.Login, Config.Password);
+            SteamBot.AddBasicCommands(Config.BasicCommands);
             Console.WriteLine("SteamBot working");
         }
 
