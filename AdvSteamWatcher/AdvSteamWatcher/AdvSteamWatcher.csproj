@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdvWatcher\AdvWatcher.csproj" />
-    <ProjectReference Include="..\SteamBot\SteamBot.csproj" />
+    <ProjectReference Include="..\SteamBot\Steam.csproj" />
   </ItemGroup>
 
 </Project>

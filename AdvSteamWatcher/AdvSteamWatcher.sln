@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvSteamWatcher", "AdvSteamWatcher\AdvSteamWatcher.csproj", "{35EB404B-AB44-4C45-A897-DBC6E8D44148}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamBot", "SteamBot\SteamBot.csproj", "{6B4E7EEE-79A1-4CEF-8606-2137A6987245}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steam", "SteamBot\Steam.csproj", "{6B4E7EEE-79A1-4CEF-8606-2137A6987245}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvWatcher", "AdvWatcher\AdvWatcher.csproj", "{F63CA803-14AF-45CD-ACAA-1BB919ABAC0C}"
 EndProject
