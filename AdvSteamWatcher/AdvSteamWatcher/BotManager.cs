@@ -18,20 +18,7 @@ namespace AdvSteamWatcher
         {
             try
             {
-                Config = ConfigParser.ParseConfig(configPath);
-
-                AdvReceivers = new List<Friend>();
-                foreach (var rawAdvReceiver in Config.AdvMessageReceivers)
-                {
-                    Friend friend = new Friend()
-                    {
-                        SteamID = new SteamID(rawAdvReceiver, EUniverse.Public),
-                        IsReceivingAdvInfo = true
-                    };
-                    AdvReceivers.Add(friend);
-                }
-                Console.WriteLine("Config loaded correctly");
-
+                LoadConfigFile(configPath);
                 StartSteamBot();
                 StartSiteWatcher();
             }
@@ -42,6 +29,23 @@ namespace AdvSteamWatcher
                 
                 File.WriteAllText($"BotManagerError{ DateTime.Now.ToString("yyyyMMddd") }.log", $"{ DateTime.Now.ToString("yyyyMMddd") }  {e.Message}\r\n{e.StackTrace}");
             }
+        }
+
+        private void LoadConfigFile(string configPath)
+        {
+            Config = ConfigParser.ParseConfig(configPath);
+
+            AdvReceivers = new List<Friend>();
+            foreach (var rawAdvReceiver in Config.AdvMessageReceivers)
+            {
+                Friend friend = new Friend()
+                {
+                    SteamID = new SteamID(rawAdvReceiver, EUniverse.Public),
+                    IsReceivingAdvInfo = true
+                };
+                AdvReceivers.Add(friend);
+            }
+            Console.WriteLine("Config loaded correctly");
         }
 
         private void StartSiteWatcher()
