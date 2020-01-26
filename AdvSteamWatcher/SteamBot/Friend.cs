@@ -9,5 +9,6 @@ namespace Steam
     {
         public SteamID SteamID { get; set; }
         public bool IsReceivingAdvInfo { get; set; }
+        public ChatState ChatState { get; set; } = ChatState.NoInteraction;
     }
 }
