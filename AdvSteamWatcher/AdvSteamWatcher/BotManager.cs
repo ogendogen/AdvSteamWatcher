@@ -26,18 +26,18 @@ namespace AdvSteamWatcher
             }
         }
 
+        public void Launch()
+        {
+            StartSteamBot();
+            StartSiteWatcher();
+        }
+
         private void HandleException(Exception e)
         {
             Console.WriteLine($"Exception occured: {e.Message}");
             Console.WriteLine("More details in log file");
 
             File.WriteAllText($"BotManagerError{ DateTime.Now.ToString("yyyyMMddd") }.log", $"{ DateTime.Now.ToString("yyyyMMddd") }  {e.Message}\r\n{e.StackTrace}");
-        }
-
-        public void Launch()
-        {
-            StartSteamBot();
-            StartSiteWatcher();
         }
 
         private void LoadConfigFile(string configPath)
