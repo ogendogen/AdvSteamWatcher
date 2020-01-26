@@ -69,7 +69,7 @@ namespace Steam
 
         public void AddBasicCommands(Dictionary<string, string> basicCommands)
         {
-            throw new NotImplementedException();
+            BasicCommands = basicCommands;
         }
 
         private void OnConnected(SteamClient.ConnectedCallback callback)
