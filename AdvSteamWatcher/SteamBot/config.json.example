@@ -10,5 +10,6 @@
   "BasicCommands": {
     "!cmd1": "Response1",
     "!cmd2": "Response2"
-  }
+  },
+  "WelcomeMessage": ""
 }

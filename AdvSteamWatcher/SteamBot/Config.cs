@@ -13,6 +13,7 @@ namespace Steam
         public string WantedText { get; set; }
         public double Interval { get; set; }
         public Dictionary<string, string> BasicCommands { get; set; }
+        public string WelcomeMessage { get; set; }
 
         public Config()
         {
