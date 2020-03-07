@@ -13,7 +13,8 @@ namespace Steam
         public SteamUser SteamUser { get; set; }
         public SteamFriends SteamFriends { get; set; }
         public bool IsRunning { get; set; } = false;
-        public Dictionary<string, string> BasicCommands { get; set; }
+        public Dictionary<string, string> BasicCommands { get; private set; }
+        public string WelcomeMessage { get; private set; }
 
         private string _login;
         private string _password;
@@ -65,6 +66,11 @@ namespace Steam
                     Manager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
                 }
             }).Start();
+        }
+
+        public void SetWelcomeMessage(string welcomeMessage)
+        {
+            WelcomeMessage = welcomeMessage;
         }
 
         public void AddBasicCommands(Dictionary<string, string> basicCommands)
@@ -162,7 +168,7 @@ namespace Steam
                 }
                 else
                 {
-                    responseMessage = "Hello";
+                    responseMessage = WelcomeMessage;
                 }
                 
                 SteamFriends.SendChatMessage(sender, EChatEntryType.ChatMsg, responseMessage);
