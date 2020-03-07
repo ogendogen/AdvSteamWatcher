@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 using SteamKit2;
 
 namespace Steam
@@ -34,6 +35,8 @@ namespace Steam
                 _welcomeMessage = value;
             }
         }
+        public HashSet<Friend> Chatters { get; set; }
+        public string CommandNotFoundMessage { get; private set; }
 
         private string _login;
         private string _password;
@@ -44,6 +47,7 @@ namespace Steam
             var configuration = SteamConfiguration.Create(b => b.WithProtocolTypes(ProtocolTypes.Tcp));
             SteamClient = new SteamClient(configuration);
             Manager = new CallbackManager(SteamClient);
+            Chatters = new HashSet<Friend>();
 
             SteamUser = SteamClient.GetHandler<SteamUser>();
             SteamFriends = SteamClient.GetHandler<SteamFriends>();
@@ -91,6 +95,11 @@ namespace Steam
         public void SetWelcomeMessage(string welcomeMessage)
         {
             WelcomeMessage = welcomeMessage;
+        }
+
+        public void SetCommandNotFoundMessage(string commandNotFoundMessage)
+        {
+            CommandNotFoundMessage = commandNotFoundMessage;
         }
 
         public void AddBasicCommands(Dictionary<string, string> basicCommands)
@@ -180,15 +189,42 @@ namespace Steam
             if (callback.EntryType == EChatEntryType.ChatMsg)
             {
                 var sender = callback.Sender;
+
+                Friend currentChatter = Chatters.FirstOrDefault(chatter => chatter.SteamID.AccountID == sender.AccountID);
+
+                if (currentChatter == null)
+                {
+                    currentChatter = new Friend()
+                    {
+                        WelcomedDate = DateTime.Now,
+                        ChatState = ChatState.NoInteraction,
+                        SteamID = sender,
+                        IsReceivingAdvInfo = false
+                    };
+
+                    Chatters.Add(currentChatter);
+                }
+
+                TimeSpan timeSpan = DateTime.Now - currentChatter.WelcomedDate;
+                if (timeSpan.Minutes >= 5)
+                {
+                    currentChatter.ChatState = ChatState.NoInteraction;
+                }
                 
                 string responseMessage = String.Empty;
                 if (BasicCommands.ContainsKey(callback.Message))
                 {
                     responseMessage = BasicCommands[callback.Message];
+                    currentChatter.ChatState = ChatState.Welcomed;
                 }
-                else
+                else if (currentChatter.ChatState == ChatState.NoInteraction)
                 {
+                    currentChatter.ChatState = ChatState.Welcomed;
                     responseMessage = WelcomeMessage;
+                }
+                else if (currentChatter.ChatState == ChatState.Welcomed)
+                {
+                    responseMessage = CommandNotFoundMessage;
                 }
                 
                 SteamFriends.SendChatMessage(sender, EChatEntryType.ChatMsg, responseMessage);

@@ -14,6 +14,7 @@ namespace Steam
         public double Interval { get; set; }
         public Dictionary<string, string> BasicCommands { get; set; }
         public string WelcomeMessage { get; set; }
+        public string CommandNotFoundMessage { get; set; }
 
         public Config()
         {
