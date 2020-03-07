@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using SteamKit2;
@@ -14,10 +15,29 @@ namespace Steam
         public SteamFriends SteamFriends { get; set; }
         public bool IsRunning { get; set; } = false;
         public Dictionary<string, string> BasicCommands { get; private set; }
-        public string WelcomeMessage { get; private set; }
+        public string WelcomeMessage 
+        { 
+            get
+            {
+                StringBuilder finalMsg = new StringBuilder();
+                finalMsg.Append($"{_welcomeMessage}");
+
+                foreach (var command in BasicCommands)
+                {
+                    finalMsg.Append($"{command.Key}{Environment.NewLine}");
+                }
+
+                return finalMsg.ToString();
+            }
+            private set
+            {
+                _welcomeMessage = value;
+            }
+        }
 
         private string _login;
         private string _password;
+        private string _welcomeMessage;
 
         public SteamBot(string login, string password)
         {
