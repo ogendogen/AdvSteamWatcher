@@ -228,6 +228,9 @@ namespace Steam
                 }
                 
                 SteamFriends.SendChatMessage(sender, EChatEntryType.ChatMsg, responseMessage);
+
+                Console.WriteLine($"{SteamFriends.GetFriendPersonaName(sender)}: {callback.Message}");
+                Console.WriteLine($"BOT: {responseMessage}");
             }
         }
     }
