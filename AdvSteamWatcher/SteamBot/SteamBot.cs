@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 using SteamKit2;
 
 namespace Steam
@@ -12,15 +15,39 @@ namespace Steam
         public SteamUser SteamUser { get; set; }
         public SteamFriends SteamFriends { get; set; }
         public bool IsRunning { get; set; } = false;
+        public Dictionary<string, string> BasicCommands { get; private set; }
+        public string WelcomeMessage 
+        { 
+            get
+            {
+                StringBuilder finalMsg = new StringBuilder();
+                finalMsg.Append($"{_welcomeMessage}");
+
+                foreach (var command in BasicCommands)
+                {
+                    finalMsg.Append($"{command.Key}{Environment.NewLine}");
+                }
+
+                return finalMsg.ToString();
+            }
+            private set
+            {
+                _welcomeMessage = value;
+            }
+        }
+        public HashSet<Friend> Chatters { get; set; }
+        public string CommandNotFoundMessage { get; private set; }
 
         private string _login;
         private string _password;
+        private string _welcomeMessage;
 
         public SteamBot(string login, string password)
         {
             var configuration = SteamConfiguration.Create(b => b.WithProtocolTypes(ProtocolTypes.Tcp));
             SteamClient = new SteamClient(configuration);
             Manager = new CallbackManager(SteamClient);
+            Chatters = new HashSet<Friend>();
 
             SteamUser = SteamClient.GetHandler<SteamUser>();
             SteamFriends = SteamClient.GetHandler<SteamFriends>();
@@ -63,6 +90,21 @@ namespace Steam
                     Manager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
                 }
             }).Start();
+        }
+
+        public void SetWelcomeMessage(string welcomeMessage)
+        {
+            WelcomeMessage = welcomeMessage;
+        }
+
+        public void SetCommandNotFoundMessage(string commandNotFoundMessage)
+        {
+            CommandNotFoundMessage = commandNotFoundMessage;
+        }
+
+        public void AddBasicCommands(Dictionary<string, string> basicCommands)
+        {
+            BasicCommands = basicCommands;
         }
 
         private void OnConnected(SteamClient.ConnectedCallback callback)
@@ -147,7 +189,48 @@ namespace Steam
             if (callback.EntryType == EChatEntryType.ChatMsg)
             {
                 var sender = callback.Sender;
-                SteamFriends.SendChatMessage(sender, EChatEntryType.ChatMsg, "Hello");
+
+                Friend currentChatter = Chatters.FirstOrDefault(chatter => chatter.SteamID.AccountID == sender.AccountID);
+
+                if (currentChatter == null)
+                {
+                    currentChatter = new Friend()
+                    {
+                        WelcomedDate = DateTime.Now,
+                        ChatState = ChatState.NoInteraction,
+                        SteamID = sender,
+                        IsReceivingAdvInfo = false
+                    };
+
+                    Chatters.Add(currentChatter);
+                }
+
+                TimeSpan timeSpan = DateTime.Now - currentChatter.WelcomedDate;
+                if (timeSpan.Minutes >= 5)
+                {
+                    currentChatter.ChatState = ChatState.NoInteraction;
+                }
+                
+                string responseMessage = String.Empty;
+                if (BasicCommands.ContainsKey(callback.Message))
+                {
+                    responseMessage = BasicCommands[callback.Message];
+                    currentChatter.ChatState = ChatState.Welcomed;
+                }
+                else if (currentChatter.ChatState == ChatState.NoInteraction)
+                {
+                    currentChatter.ChatState = ChatState.Welcomed;
+                    responseMessage = WelcomeMessage;
+                }
+                else if (currentChatter.ChatState == ChatState.Welcomed)
+                {
+                    responseMessage = CommandNotFoundMessage;
+                }
+                
+                SteamFriends.SendChatMessage(sender, EChatEntryType.ChatMsg, responseMessage);
+
+                Console.WriteLine($"{SteamFriends.GetFriendPersonaName(sender)}: {callback.Message}");
+                Console.WriteLine($"BOT: {responseMessage}");
             }
         }
     }

@@ -6,5 +6,11 @@
   ],
   "WatchedSite": "",
   "WantedText": "",
-  "Interval": 15.00
+  "Interval": 15.00,
+  "BasicCommands": {
+    "!cmd1": "Response1",
+    "!cmd2": "Response2"
+  },
+  "WelcomeMessage": "",
+  "CommandNotFound": ""
 }

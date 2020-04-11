@@ -12,10 +12,14 @@ namespace Steam
         public string WatchedSite { get; set; }
         public string WantedText { get; set; }
         public double Interval { get; set; }
+        public Dictionary<string, string> BasicCommands { get; set; }
+        public string WelcomeMessage { get; set; }
+        public string CommandNotFoundMessage { get; set; }
 
         public Config()
         {
             AdvMessageReceivers = new List<string>();
+            BasicCommands = new Dictionary<string, string>();
         }
     }
 }
