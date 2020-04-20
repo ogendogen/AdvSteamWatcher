@@ -17,7 +17,7 @@ namespace AdvWatcher
         }
         private System.Timers.Timer _timer;
         private SiteParser _siteParser;
-        public SiteWatcher(string site, double intervalInSeconds, string wantedText)
+        public SiteWatcher(string site, double intervalInSeconds, string wantedText, string pathToScript)
         {
             Site = site;
             Interval = intervalInSeconds * 1000;
@@ -28,7 +28,7 @@ namespace AdvWatcher
             _timer.Interval = Interval;
             _timer.Enabled = true;
 
-            _siteParser = new SiteParser(Site, wantedText);
+            _siteParser = new SiteParser(Site, wantedText, pathToScript);
         }
 
         public void StartWatcher()

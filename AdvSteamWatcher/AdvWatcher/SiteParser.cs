@@ -11,18 +11,20 @@ namespace AdvWatcher
     {
         private string _site;
         private string _wantedText;
+        private string _pathToScript;
         private Process _pythonProcess;
-        public SiteParser(string site, string wantedText)
+        public SiteParser(string site, string wantedText, string pathToScript)
         {
             _site = site;
             _wantedText = wantedText;
+            _pathToScript = pathToScript;
 
-            _pythonProcess = new Process 
+            _pythonProcess = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "py",
-                    Arguments = $"CloudflareBanger.py { _site }",
+                    Arguments = $"{_pathToScript} { _site }",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true
