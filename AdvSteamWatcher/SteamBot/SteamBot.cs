@@ -44,7 +44,7 @@ namespace Steam
 
         public SteamBot(string login, string password)
         {
-            var configuration = SteamConfiguration.Create(b => b.WithProtocolTypes(ProtocolTypes.Tcp));
+            var configuration = SteamConfiguration.Create(b => b.WithProtocolTypes(ProtocolTypes.Tcp).WithCellID(1));
             SteamClient = new SteamClient(configuration);
             Manager = new CallbackManager(SteamClient);
             Chatters = new HashSet<Friend>();
