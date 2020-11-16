@@ -6,6 +6,7 @@ namespace Steam
 {
     public class Config
     {
+        public string CloudflareBangerScriptPath { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
         public List<string> AdvMessageReceivers { get; set; }

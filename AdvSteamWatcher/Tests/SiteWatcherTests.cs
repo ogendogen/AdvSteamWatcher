@@ -49,7 +49,7 @@ namespace Tests
 
         private void CreateSiteWatcher(string site, double interval, string wantedText)
         {
-            SiteWatcher siteWatcher = new SiteWatcher(site, interval, wantedText);
+            SiteWatcher siteWatcher = new SiteWatcher(site, interval, wantedText, "CloudflareBanger.py");
             siteWatcher.OnAdvAvaiable += SiteWatcher_OnAdvAvaiable;
             siteWatcher.StartWatcher();
 

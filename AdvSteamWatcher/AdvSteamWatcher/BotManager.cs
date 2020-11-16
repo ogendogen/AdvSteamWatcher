@@ -59,7 +59,7 @@ namespace AdvSteamWatcher
 
         private void StartSiteWatcher()
         {
-            SiteWatcher siteWatcher = new SiteWatcher(Config.WatchedSite, Config.Interval, Config.WantedText);
+            SiteWatcher siteWatcher = new SiteWatcher(Config.WatchedSite, Config.Interval, Config.WantedText, Config.CloudflareBangerScriptPath);
             siteWatcher.OnAdvAvaiable += SiteWatcher_OnAdvAvaiable;
             siteWatcher.StartWatcher();
             Console.WriteLine("Site watcher working");

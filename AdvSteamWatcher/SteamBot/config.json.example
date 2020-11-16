@@ -1,4 +1,5 @@
 {
+  "CloudFlareBangerScriptPath": "CloudflareBanger.py",
   "Login": "",
   "Password": "",
   "AdvMessageReceivers": [
